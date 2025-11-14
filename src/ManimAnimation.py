@@ -1,5 +1,6 @@
 """
 Custom Manim animation code for a Kapitza pendulum.
+© 2025 RandomKiddo
 """
 
 import numpy as np

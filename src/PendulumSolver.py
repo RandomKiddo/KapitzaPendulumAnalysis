@@ -1,7 +1,13 @@
+"""
+Custom Kapitza pendulum system numerical solving code.
+© 2025 Neil Ghugare
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 
 from scipy.integrate import solve_ivp
+from tqdm import trange
 
 class KapitzaPendulum:
     """
@@ -155,7 +161,48 @@ class KapitzaPendulum:
         ax.grid(True)
         ax.set_title(r'Comparison of $\Delta \phi$ for Chaos via Liapunov Exponent')
 
+        fig.tight_layout()
         return fig
 
-    def bifurcation(self):
-        pass
+    def bifurcation(self, phi_0, phi_dot_0):
+        """
+        todo fix
+        """
+        a_vals = np.linspace(0.1, 2.0, 200)
+        
+        T = 2*np.pi / self.nu
+        t_transient = 100*T
+        N_periods = 100
+        t_total = t_transient + N_periods*T
+
+        bifurcation_data = []
+        t_pts = np.linspace(0.0, t_total, 1e4)
+
+        for i, a in enumerate(a_vals):
+            phi, phi_dot = self.solve_ode(t_pts, phi_0, phi_dot_0)
+
+            y_poincare = sol.sol(N_periods*T + np.arange(N_periods)*T)
+            phi_collect = y_poincare[0, :]
+            for phi_k in phi_collect:
+                bifurcation_data.append((a, phi_k))
+
+            if (i+1)% (200 // 10) == 0:
+                print(f"  Processed {i+1}/{N_A} amplitudes...")
+
+        a_points = [item[0] for item in bifurcation_data]
+        phi_points = [item[1] for item in bifurcation_data]
+        
+        fig, ax = plt.figure(figsize=(12, 7))
+        # Use ',' as the marker style for tiny, fast-rendering points
+        ax.plot(a_points, phi_points, ',k', markersize=0.5) 
+        ax.set_xlabel('Driving Amplitude $a$ (Varying Parameter)', fontsize=14)
+        ax.set_ylabel('Angle $\\phi$ (Poincaré Section Value)', fontsize=14)
+        ax.set_title(fr'Bifurcation Diagram for Kapitza Pendulum (Fixed $\\nu={self.nu}$)')
+        ax.grid(True, linestyle='--', alpha=0.5)
+        ax.axhline(0, color='gray', linestyle='-', linewidth=0.8)
+        ax.xlim(0.1, 2.0)
+
+        fig.tight_layout()
+        return fig
+
+        
