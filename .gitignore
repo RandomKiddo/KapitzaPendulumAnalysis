@@ -1,0 +1,11 @@
+# MacOS
+*.DS_Store
+
+# Ignore Dir
+ignore/
+
+# Jupyter
+*.ipynb_checkpoints/
+
+# VSCOde
+*.vscode/
