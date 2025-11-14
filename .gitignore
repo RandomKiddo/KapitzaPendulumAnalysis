@@ -12,3 +12,6 @@ ignore/
 
 # Manim Media
 */media/
+
+# Python
+*/__pycache__/
