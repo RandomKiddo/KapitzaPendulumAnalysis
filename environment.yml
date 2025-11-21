@@ -21,11 +21,11 @@ dependencies:
   - bleach=6.2.0=py312hca03da5_0
   - brotli-python=1.2.0=py312hcae0c51_0
   - bzip2=1.0.8=hd037594_8
-  - ca-certificates=2025.10.5=hbd8a1cb_0
+  - ca-certificates=2025.11.4=hca03da5_0
   - cachecontrol=0.14.3=pyha770c72_0
   - cachecontrol-with-filecache=0.14.3=pyhd8ed1ab_0
   - cairo=1.18.4=h6a3b0d2_0
-  - certifi=2025.10.5=pyhd8ed1ab_0
+  - certifi=2025.11.12=py312hca03da5_0
   - cffi=2.0.0=py312h1b4d9a2_1
   - charset-normalizer=3.4.4=pyhd8ed1ab_0
   - cleo=2.1.0=pyhd8ed1ab_1
