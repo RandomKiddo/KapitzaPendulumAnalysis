@@ -109,3 +109,69 @@ class ExampleNonChaosSystem(KapitzaPendulumChaosAnimation):
         # Construct the animation as per the superclass
         super().construct()
 
+class ExampleHopfNonChaosSystem(KapitzaPendulumChaosAnimation):
+    """
+    A Manim Scene animation that animates a Kapitza pendulum's dynamics given set parameters, specifically for chaos comparison.
+    This is a subclass that is an example pendulum. This system emulates a system where the the Kapitza system is particularly
+    non-chaotic for the check on the Hopf bifurcation.
+
+    The following parameters are overridden in this subclass (the rest are the same as the defaults):
+    a = 0.25
+    nu = 30.0
+    phi_0 = pi-0.1
+    """
+    
+    @override
+    def construct(self):
+        """
+        --- Description: ---
+            Constructs the Kapitza pendulum chaos animation scene for this example pendulum.
+
+        --- Parameters (Required): ---
+            None
+
+        --- Parameters (Optional): ---
+            None
+
+        --- Returns: ---
+            None
+        """
+        # Override the parameters
+        KapitzaPendulumChaosAnimation.params = PendulumParams(a=0.25, nu=30.0, phi_0=np.pi-0.1, phi_dot_0=0.0)
+
+        # Construct the animation as per the superclass
+        super().construct()
+
+class ExampleHopfChaosSystem(KapitzaPendulumChaosAnimation):
+    """
+    A Manim Scene animation that animates a Kapitza pendulum's dynamics given set parameters, specifically for chaos comparison.
+    This is a subclass that is an example pendulum. This system emulates a system where the the Kapitza system is particularly
+    chaotic for the check on the Hopf bifurcation.
+
+    The following parameters are overridden in this subclass (the rest are the same as the defaults):
+    a = 0.5
+    nu = 30.0
+    phi_0 = pi-0.1
+    """
+    
+    @override
+    def construct(self):
+        """
+        --- Description: ---
+            Constructs the Kapitza pendulum chaos animation scene for this example pendulum.
+
+        --- Parameters (Required): ---
+            None
+
+        --- Parameters (Optional): ---
+            None
+
+        --- Returns: ---
+            None
+        """
+        # Override the parameters
+        KapitzaPendulumChaosAnimation.params = PendulumParams(a=0.5, nu=30.0, phi_0=np.pi-0.1, phi_dot_0=0.0)
+
+        # Construct the animation as per the superclass
+        super().construct()
+
