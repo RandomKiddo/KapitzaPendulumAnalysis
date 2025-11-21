@@ -164,45 +164,77 @@ class KapitzaPendulum:
         fig.tight_layout()
         return fig
 
-    def bifurcation(self, phi_0, phi_dot_0):
+    def bifurcation(self, phi_0, phi_dot_0, a_range=(0.0, 2.0, 200), num_t_points=200):
         """
         todo fix
         """
-        a_vals = np.linspace(0.1, 2.0, 200)
+        # 1. Setup parameter space
+        a_values = np.linspace(*a_range)
+        T = 2. * np.pi / self.nu  # Driving period
+    
+        # Total integration time
+        t_transient_periods = 50
+        t_steady_state_periods = 100
+        t_start = 0.
+        t_end = (t_transient_periods + t_steady_state_periods) * T
+    
+        # Time points for sampling (Poincaré section)
+        # Start sampling after the transient period
+        t_sample_start = t_transient_periods * T
+        t_sample_end = t_end
         
-        T = 2*np.pi / self.nu
-        t_transient = 100*T
-        N_periods = 100
-        t_total = t_transient + N_periods*T
-
-        bifurcation_data = []
-        t_pts = np.linspace(0.0, t_total, 1e4)
-
-        for i, a in enumerate(a_vals):
-            phi, phi_dot = self.solve_ode(t_pts, phi_0, phi_dot_0)
-
-            y_poincare = sol.sol(N_periods*T + np.arange(N_periods)*T)
-            phi_collect = y_poincare[0, :]
-            for phi_k in phi_collect:
-                bifurcation_data.append((a, phi_k))
-
-            if (i+1)% (200 // 10) == 0:
-                print(f"  Processed {i+1}/{N_A} amplitudes...")
-
-        a_points = [item[0] for item in bifurcation_data]
-        phi_points = [item[1] for item in bifurcation_data]
+        # Create the time array for the sample points: t = t_sample_start + n*T
+        t_pts_sample = np.linspace(t_sample_start, t_sample_end, num_t_points, endpoint=True)
+    
+        # Full time array to pass to the ODE solver (optional, but ensures samples are calculated)
+        # You can also use t_eval=t_pts_sample in solve_ivp directly, but using an evenly
+        # spaced full array for the solver can sometimes improve stability.
+        t_pts_full = np.linspace(t_start, t_end, 200 * (t_transient_periods + t_steady_state_periods))
+    
+        all_sampled_phis = []
+        corresponding_a_values = []
+    
+        # 2. Iterate over 'a' values
+        for i in trange(len(a_values)):
+            a = a_values[i]
+            # 2a. Initialize the system for the current 'a'
+            pendulum = KapitzaPendulum(a=a, nu=self.nu, m=self.m, g=self.g, l=self.l)
+            
+            # 2b. Solve the ODE
+            # We only care about the time points that correspond to the Poincaré section
+            phi_pts_full, _ = pendulum.solve_ode(t_pts_full, phi_0, phi_dot_0)
+            
+            # Use interpolation to get values at the precise sample times if t_pts_full is used
+            # Alternatively, use t_eval=t_pts_sample in solve_ivp
+            solution = solve_ivp(pendulum.dy_dt, (t_start, t_end), [phi_0, phi_dot_0], 
+                                 t_eval=t_pts_sample, atol=1.0e-10, rtol=1.0e-10)
+            
+            sampled_phis = solution.y[0]
+            
+            # 4. Filter and store the steady-state sampled $\phi$ values
+            # Since t_pts_sample was created to start after t_transient_periods, 
+            # all points are considered steady-state.
+            
+            # Normalize the angle to be between -pi and pi for plotting clarity
+            normalized_phis = np.arctan2(np.sin(sampled_phis), np.cos(sampled_phis))
+    
+            # Store the points for plotting
+            all_sampled_phis.extend(normalized_phis)
+            corresponding_a_values.extend([a] * len(normalized_phis))
+    
+        # 5. Plot the bifurcation diagram
+        fig, ax = plt.subplots(figsize=(10, 6))
+        ax.plot(corresponding_a_values, all_sampled_phis, 'k.', markersize=2, alpha=0.5)
+        ax.plot(phi_0, color='red', linestyle='--')
+        ax.plot(-phi_0, color='red', linestyle='--')
         
-        fig, ax = plt.figure(figsize=(12, 7))
-        # Use ',' as the marker style for tiny, fast-rendering points
-        ax.plot(a_points, phi_points, ',k', markersize=0.5) 
-        ax.set_xlabel('Driving Amplitude $a$ (Varying Parameter)', fontsize=14)
-        ax.set_ylabel('Angle $\\phi$ (Poincaré Section Value)', fontsize=14)
-        ax.set_title(fr'Bifurcation Diagram for Kapitza Pendulum (Fixed $\\nu={self.nu}$)')
-        ax.grid(True, linestyle='--', alpha=0.5)
-        ax.axhline(0, color='gray', linestyle='-', linewidth=0.8)
-        ax.xlim(0.1, 2.0)
-
-        fig.tight_layout()
+        ax.set_xlabel(r'Driving Amplitude $a$')
+        ax.set_ylabel(r'Angle $\phi$ at $t=nT$ (mod $2\pi$)')
+        ax.set_title(rf'Bifurcation Diagram for Kapitza Pendulum ($\nu={self.nu}$)')
+        ax.grid(True, linestyle='--', alpha=0.6)
+        ax.tick_params(axis='both', top=True, right=True, which='both', direction='in')
+        
+        plt.tight_layout()
         return fig
 
         
