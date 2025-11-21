@@ -164,11 +164,26 @@ class KapitzaPendulum:
         fig.tight_layout()
         return fig
 
-    def bifurcation(self, phi_0, phi_dot_0, a_range=(0.0, 2.0, 200), num_t_points=200):
+    def bifurcation(self, phi_0, phi_dot_0, a_range=(0.0, 2.0, 200), num_t_points=200, rough_modeling=True):
         """
-        todo fix
+        --- Description: ---
+        Creates a Hopf bifurcation plot for a fixed driving frequency of the system.
+
+        --- Parameters (Required): ---
+            1. phi_0 - The initial phi position of the pendulum.
+            2. phi_dot_0 - The initial phi velocity of the pendulum.
+
+        --- Parameters (Optional): ---
+            1. a_range - The tuple for the range of driving amplitudes to try of (a_start, a_end, num_points).
+            2. num_t_points - The number of t points (Poincare points) to use.
+            3. rough_modeling - If the rough Hopf modeling should be shown in red on the figure.
+            
+        --- Returns: ---
+            The matplotlib figure object of the image.
         """
-        # 1. Setup parameter space
+        # --- Setup ---
+        
+        # Setup the parameter space
         a_values = np.linspace(*a_range)
         T = 2. * np.pi / self.nu  # Driving period
     
@@ -186,47 +201,83 @@ class KapitzaPendulum:
         # Create the time array for the sample points: t = t_sample_start + n*T
         t_pts_sample = np.linspace(t_sample_start, t_sample_end, num_t_points, endpoint=True)
     
-        # Full time array to pass to the ODE solver (optional, but ensures samples are calculated)
-        # You can also use t_eval=t_pts_sample in solve_ivp directly, but using an evenly
-        # spaced full array for the solver can sometimes improve stability.
+        # Full time array to pass to the ODE solver
         t_pts_full = np.linspace(t_start, t_end, 200 * (t_transient_periods + t_steady_state_periods))
     
         all_sampled_phis = []
         corresponding_a_values = []
-    
-        # 2. Iterate over 'a' values
+        model_upper, model_lower = [], []
+
+        # --- Iteration ---
+        
+        # Iterate over 'a' values
         for i in trange(len(a_values)):
             a = a_values[i]
-            # 2a. Initialize the system for the current 'a'
+            # Initialize the system for the current 'a'
             pendulum = KapitzaPendulum(a=a, nu=self.nu, m=self.m, g=self.g, l=self.l)
             
-            # 2b. Solve the ODE
+            # Solve the ODE
             # We only care about the time points that correspond to the Poincaré section
             phi_pts_full, _ = pendulum.solve_ode(t_pts_full, phi_0, phi_dot_0)
             
             # Use interpolation to get values at the precise sample times if t_pts_full is used
-            # Alternatively, use t_eval=t_pts_sample in solve_ivp
             solution = solve_ivp(pendulum.dy_dt, (t_start, t_end), [phi_0, phi_dot_0], 
                                  t_eval=t_pts_sample, atol=1.0e-10, rtol=1.0e-10)
             
             sampled_phis = solution.y[0]
             
-            # 4. Filter and store the steady-state sampled $\phi$ values
+            # Filter and store the steady-state sampled $\phi$ values
             # Since t_pts_sample was created to start after t_transient_periods, 
             # all points are considered steady-state.
             
             # Normalize the angle to be between -pi and pi for plotting clarity
             normalized_phis = np.arctan2(np.sin(sampled_phis), np.cos(sampled_phis))
+
+            # Rough Hopf bifurcation modeling
+            if rough_modeling:
+                # We used circular standard deviations to check, using cosines and sines.
+                # See https://en.wikipedia.org/wiki/Directional_statistics.
+                cos_sum = np.sum(np.cos(normalized_phis))
+                sin_sum = np.sum(np.sin(normalized_phis))
+                N = len(normalized_phis)
+            
+                # Calculate the Mean Resultant Vector Length (R)
+                # R is the length of the average vector.
+                R_bar = np.sqrt(cos_sum**2 + sin_sum**2) / N
+            
+                # Calculate the Circular Variance (V)
+                # V = 1 - R_bar
+                V_circ = 1 - R_bar
+
+                # If V_circ is close to 0, it implies that the Poincaré points are concentrated
+                # at the ends where phi_0 is. Otherwise it implies some chaos with Poincaré points
+                # spread throughout.
+                if V_circ <= 0.1:  # Small V_circ implies concentration at the ends, no spread.
+                    model_upper.append(np.mean(normalized_phis[np.where(normalized_phis > 0.0)]))
+                    model_lower.append(np.mean(normalized_phis[np.where(normalized_phis < 0.0)]))
+                else:
+                    mean = np.mean(normalized_phis)
+                    model_upper.append(mean)
+                    model_lower.append(mean)
     
             # Store the points for plotting
             all_sampled_phis.extend(normalized_phis)
             corresponding_a_values.extend([a] * len(normalized_phis))
-    
-        # 5. Plot the bifurcation diagram
+
+        # --- Plotting ---
+        
+        # Plot the bifurcation diagram
         fig, ax = plt.subplots(figsize=(10, 6))
-        ax.plot(corresponding_a_values, all_sampled_phis, 'k.', markersize=2, alpha=0.5)
-        ax.plot(phi_0, color='red', linestyle='--')
-        ax.plot(-phi_0, color='red', linestyle='--')
+        if a_range[2] <= 300:
+            ax.plot(corresponding_a_values, all_sampled_phis, 'k.', markersize=2, alpha=0.5)
+        else:  # Use smaller points
+            ax.plot(corresponding_a_values, all_sampled_phis, ',k', alpha=0.5)
+        if not rough_modeling:  # Even rougher modeling of the phi_0 and -phi_0 locations
+            ax.axhline(phi_0, color='red', linestyle='--')
+            ax.axhline(-phi_0, color='red', linestyle='--')
+        else:  # Else plot the rough Hopf modeling
+            ax.plot(a_values, model_upper, color='red', linestyle='-')
+            ax.plot(a_values, model_lower, color='red', linestyle='-')
         
         ax.set_xlabel(r'Driving Amplitude $a$')
         ax.set_ylabel(r'Angle $\phi$ at $t=nT$ (mod $2\pi$)')
