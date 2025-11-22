@@ -268,7 +268,7 @@ class KapitzaPendulum:
         
         # Plot the bifurcation diagram
         fig, ax = plt.subplots(figsize=(10, 6))
-        if a_range[2] <= 300:
+        if a_range[2] <= 300 and num_t_points <= 300:
             ax.plot(corresponding_a_values, all_sampled_phis, 'k.', markersize=2, alpha=0.5)
         else:  # Use smaller points
             ax.plot(corresponding_a_values, all_sampled_phis, ',k', alpha=0.5)
@@ -276,8 +276,8 @@ class KapitzaPendulum:
             ax.axhline(phi_0, color='red', linestyle='--')
             ax.axhline(-phi_0, color='red', linestyle='--')
         else:  # Else plot the rough Hopf modeling
-            ax.plot(a_values, model_upper, color='red', linestyle='-')
-            ax.plot(a_values, model_lower, color='red', linestyle='-')
+            ax.plot(a_values, model_upper, color='red', linestyle='-', linewidth=1)
+            ax.plot(a_values, model_lower, color='red', linestyle='-', linewidth=1)
         
         ax.set_xlabel(r'Driving Amplitude $a$')
         ax.set_ylabel(r'Angle $\phi$ at $t=nT$ (mod $2\pi$)')
