@@ -157,7 +157,7 @@ class KapitzaPendulum:
         ax.axhline(0, color='k', linestyle='--', alpha=0.5)  # Horizontal line at 0
         ax.set_yscale('log')  # Log scale for y-axis
         ax.set_xlabel(r'$t$')
-        ax.set_ylabel(r'$\log{\left( \left| \Delta \phi(t) \right| \right)}$')
+        ax.set_ylabel(r'$ \left| \Delta \phi(t) \right|$')
         ax.grid(True)
         ax.set_title(r'Comparison of $\Delta \phi$ for Chaos via Liapunov Exponent')
 
