@@ -100,7 +100,7 @@ class KapitzaPendulum:
         fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(10, 4))
 
         # --- phi(t) plot ---
-        ax[0].plot(t_pts, phi_pts)
+        ax[0].plot(t_pts, phi_pts, label=r'$\phi$')
         ax[0].set_xlabel(r'$t$')
         ax[0].set_ylabel(r'$\phi(t)$')
         ax[0].tick_params(axis='both', top=True, right=True, which='both', direction='in')
@@ -120,6 +120,45 @@ class KapitzaPendulum:
 
         plt.suptitle(r'Motion and State Space for Kapitza Pendulum')
         ax[1].set_title(rf'$\omega_0={self.omega0}, a={self.a}, \nu={self.nu}$')
+
+        plt.tight_layout()
+
+        if fig_save_path:
+            plt.savefig(fig_save_path, dpi=300)
+        
+        return fig
+
+    def phi_and_driving_plot(self, t_pts, phi_pts, fig_save_path=None):
+        """
+        --- Description: ---
+        Makes a plot for the current pendulum system of the motion and driving force versus time.
+
+        --- Parameters (Required): ---
+            1. t_pts - The finite array of time points to solve over.
+            2. phi_pts - The phi points, phi(t).
+
+        --- Parameters (Optional): ---
+            1. fig_save_path - The path and filename to save the figure.
+
+        --- Returns: ---
+            The matplotlib figure object of the image.
+        """
+        fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(10, 4))
+
+        # --- phi(t) plot ---
+        ax.plot(t_pts, phi_pts, label=r'$\phi$')
+        ax.set_xlabel(r'$t$')
+        ax.set_ylabel(r'$\phi(t)$')
+        ax.tick_params(axis='both', top=True, right=True, which='both', direction='in')
+        ax.set_yscale('linear')
+        
+        # --- driving force plot on 1 ---
+        driving_force = np.cos(self.nu*t_pts)
+        ax.plot(t_pts, driving_force, label='Driving Force', color='red', alpha=0.5)
+        ax.legend()
+
+        plt.suptitle(r'Motion with Driving Force for Kapitza Pendulum')
+        ax.set_title(rf'$\omega_0={self.omega0}, a={self.a}, \nu={self.nu}$')
 
         plt.tight_layout()
 

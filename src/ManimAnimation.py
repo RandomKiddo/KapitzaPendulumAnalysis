@@ -3,6 +3,8 @@ Custom Manim animation code for a Kapitza pendulum.
 © 2025 RandomKiddo
 """
 
+# todo length of pivot scaling
+
 import numpy as np
 
 from scipy.integrate import solve_ivp
@@ -124,6 +126,10 @@ class KapitzaPendulumAnimation(Scene):
             x_range = [np.min(phi_norm), 1.]
         elif np.max(phi_norm) < 0:
             x_range = [-1., np.max(phi_norm)]
+
+        # Check x_range for perfectly stable solutions
+        if np.isclose(np.min(phi_norm), np.max(phi_norm)):
+            x_range = [-1., 1.]
         
         # Tick markings on the plot
         x_tick_range = (x_range[1]-x_range[0])/4
@@ -606,7 +612,7 @@ class KapitzaPendulumChaosAnimation(Scene):
             buff=0,  # no buffer so the tail is at the enter of the bob
             tip_length=0.2
         )))
-        '''
+        '''  # No vector arrow for chaos plot, it becomes confusing
 
         # Vector group the entire set and add it
         group = VGroup(lever_pivot_sca, wheel_base_sca, wheel, lever_rod, pivot, rod, bob, rod2, bob2, lever_rod_attenuator)
