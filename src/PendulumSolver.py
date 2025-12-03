@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 
 from scipy.integrate import solve_ivp
 from tqdm import trange
+from typing import override
 
 class KapitzaPendulum:
     """
@@ -288,4 +289,48 @@ class KapitzaPendulum:
         plt.tight_layout()
         return fig
 
-        
+class DampedKapitzaPendulum(KapitzaPendulum):
+    """
+    Class that numerically solves the equations of motion for a damped Kapitza pendulum.
+    """
+    
+    def __init__(self, m=1., l=1., g=1., a=1., nu=1., gamma=0.02):
+        """
+        --- Description: ---
+        Initializes the conditions of a damped Kapitza pendulum system.
+
+        --- Parameters (Required): ---
+            None
+
+        --- Parameters (Optional): ---
+            1. m - The mass of the pendulum bob.
+            2. l - The length of the pendulum rod.
+            3. g - The gravitational acceleration.
+            4. a - The driving amplitude.
+            5. nu - The driving frequency. 
+            6. gamma - The damping parameter
+
+        --- Returns: ---
+            None
+        """
+        self.gamma = gamma
+        super().__init__(m, l, g, a, nu)
+
+    @override
+    def dy_dt(self, t, y):
+        """
+        --- Description: ---
+        Calculates the derivative vector [phi_dot, phi_double_dot] for a given y-vector and t.
+        Overrides the super-class dy_dt.
+
+        --- Parameters (Required): ---
+            1. t - The current time.
+            2. y - The current position vector [phi, phi_dot]
+
+        --- Parameters (Optional): ---
+            None
+
+        --- Returns: ---
+            The derivative vector [phi_dot, phi_double_dot], with phi_double_dot coming from the equations of motion.
+        """
+        return [y[1], -(self.g + self.a*self.nu2*np.cos(self.nu*t))*np.sin(y[0])/self.l - self.gamma*y[1]]       
