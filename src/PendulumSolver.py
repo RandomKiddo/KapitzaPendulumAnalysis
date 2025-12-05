@@ -3,6 +3,8 @@ Custom Kapitza pendulum system numerical solving code.
 © 2025 Neil Ghugare
 """
 
+# todo typing, if time permits
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -327,6 +329,90 @@ class KapitzaPendulum:
         
         plt.tight_layout()
         return fig
+
+    def U_snapshots(self, t_min=0.0, t_max=45.0):
+        """
+        --- Description: ---
+        Creates thumbnail plots of the evolution of the time-dependent U as a function of phi.
+        This function always splits into 10 thumbnails, including the endpoints.
+
+        --- Parameters (Required): ---
+            None
+
+        --- Parameters (Optional): ---
+            1. t_min - The starting time.
+            2. t_max - The ending time.
+            
+        --- Returns: ---
+            The matplotlib figure object of the image.
+        """
+        phi_pts = np.arange(0.0, 2*np.pi + 1e-3, 1e-3)  # Zero to 2pi phi values.
+
+        fig, ax = plt.subplots(nrows=2, ncols=5, figsize=(10, 6))
+
+        # --- Snapshots ---
+
+        t_pts = np.linspace(t_min, t_max, 10)
+        row = 0
+        min_U, max_U = np.inf, -np.inf 
+        for _ in range(10):
+            U_vals = -self.m*self.g*(self.l*np.cos(phi_pts) + self.a*np.cos(self.nu*t_pts[_]))
+
+            ax[row][_%5].plot(phi_pts, U_vals)
+            ax[row][_%5].set_xlabel(r'$\phi$')
+            ax[row][_%5].set_ylabel(rf'$U(\phi, t={t_pts[_]:.2f})$')
+            ax[row][_%5].tick_params(axis='both', top=True, right=True, which='both', direction='in')
+            
+            if _ == 4:
+                row = 1
+
+            if np.max(U_vals) > max_U:
+                max_U = np.max(U_vals)
+            if np.min(U_vals) < min_U:
+                min_U = np.min(U_vals)
+
+        # --- Fixing Limits ---
+        
+        deltaU = np.abs((max_U-min_U)/50.0)
+        for i in range(2):
+            for j in range(5):
+                ax[i][j].set_ylim([min_U-deltaU, max_U+deltaU])  # Static axes for better comparison
+                ax[i][j].set_xlim([0.0, 2*np.pi])                # Fixed xlim
+        
+
+        fig.suptitle(r'$U(\phi, t)$ Snapshots')
+
+        plt.tight_layout()
+        return fig
+
+    def U_eff_plot(self, phi_pts):
+        """
+        --- Description: ---
+        Plots U_eff as a function of phi, assuming a slow-fast regime.
+
+        --- Parameters (Required): ---
+            1. phi_pts - The phi domain to plot over.
+
+        --- Parameters (Optional): ---
+            None
+            
+        --- Returns: ---
+            The matplotlib figure object of the image.
+        """
+        fig, ax = plt.subplots()
+
+        # U_eff from our known formula
+        U_eff = -self.m*self.g*self.l*np.cos(phi_pts) + ((self.m*self.a*self.nu**2)/(4*self.l))*(np.sin(phi_pts))**2
+        
+        ax.plot(phi_pts, U_eff, label=r'$\Delta \phi$')
+        ax.set_xlabel(r'$\phi$')
+        ax.set_ylabel(r'$U_{\rm eff}$')
+        ax.set_xlim([np.min(phi_pts), np.max(phi_pts)])
+        ax.set_title(r'$U_{\rm eff}(\phi)$ For The Given System in Slow-Fast Regime')
+
+        fig.tight_layout()
+        return fig
+        
 
 class DampedKapitzaPendulum(KapitzaPendulum):
     """
