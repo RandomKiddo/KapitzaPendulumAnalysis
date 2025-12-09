@@ -66,8 +66,11 @@ class PendulumParams:
     t_max: float = 30.0             # maximum time
 
     # --- Chaos Comparison Terms (Ignore For Regular Animation) ---
-    delta_phi = 1.0e-6
-    delta_phi_dot = 0.0
+    delta_phi: float = 1.0e-6
+    delta_phi_dot: float = 0.0
+
+
+# --- Kapita Pendulum Animations ---
 
 
 class KapitzaPendulumAnimation(Scene):

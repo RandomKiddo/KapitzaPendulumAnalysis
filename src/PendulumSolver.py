@@ -402,7 +402,7 @@ class KapitzaPendulum:
         fig, ax = plt.subplots()
 
         # U_eff from our known formula
-        U_eff = -self.m*self.g*self.l*np.cos(phi_pts) + ((self.m*self.a*self.nu**2)/(4*self.l))*(np.sin(phi_pts))**2
+        U_eff = -self.m*self.g*self.l*np.cos(phi_pts) + ((self.m*self.a**2*self.nu**2)/(4.0))*(np.sin(phi_pts))**2
         
         ax.plot(phi_pts, U_eff, label=r'$\Delta \phi$')
         ax.set_xlabel(r'$\phi$')
