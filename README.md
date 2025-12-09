@@ -6,7 +6,7 @@ The following project involves the numerical analysis and manim animation of a K
 
 
 >[!Note]
-> Current version is $\beta$ 1.0. The main body of the work is *completed*, but some minor adjustments and additions may be made.
+> Current version is $\beta$ 1.1. The main body of the work is *completed*, but some minor adjustments and additions may be made.
 
 ___
 

@@ -380,6 +380,7 @@ class KapitzaPendulum:
                 ax[i][j].set_xlim([0.0, 2*np.pi])                # Fixed xlim
         
 
+        ax[0][2].set_title(fr'$\omega_0={self.omega0:.2f}, a={self.a:.2f}, \nu={self.nu:.2f}$')
         fig.suptitle(r'$U(\phi, t)$ Snapshots')
 
         plt.tight_layout()
@@ -408,7 +409,8 @@ class KapitzaPendulum:
         ax.set_xlabel(r'$\phi$')
         ax.set_ylabel(r'$U_{\rm eff}$')
         ax.set_xlim([np.min(phi_pts), np.max(phi_pts)])
-        ax.set_title(r'$U_{\rm eff}(\phi)$ For The Given System in Slow-Fast Regime')
+        ax.set_title(fr'$\omega_0={self.omega0:.2f}, a={self.a:.2f}, \nu={self.nu:.2f}$')
+        fig.suptitle(r'$U_{\rm eff}(\phi)$ For The Given System in Slow-Fast Regime')
 
         fig.tight_layout()
         return fig
