@@ -6,7 +6,7 @@ The following project involves the numerical analysis and manim animation of a K
 
 
 >[!Note]
-> Current version is $\alpha$ 1.18. This is still incomplete and work is ongoing.
+> Current version is $\alpha$ 1.19. This is still incomplete and work is ongoing.
 
 ___
 
@@ -30,7 +30,7 @@ Included in this repository:
 Manim animations are hosted in the releases, as they are big, hosted in the `videos.zip` file in the release description. Only one example animation is shown below, or is found in the `src` directory as `example.mp4`. 
 
 <video controls width="640" height="360">
-    <source src="./src/example.mp4" type="video/mp4">
+    <source src="https://github.com/user-attachments/assets/f4dd441c-62e6-4986-be80-4e22cbcefb04" type="video/mp4">
     Your browser does not support the video tag.
 </video>
 
