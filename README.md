@@ -6,7 +6,7 @@ The following project involves the numerical analysis and manim animation of a K
 
 
 >[!Note]
-> Current version is $\alpha$ 1.19. This is still incomplete and work is ongoing.
+> Current version is $\alpha$ 1.20. This is still incomplete and work is ongoing.
 
 ___
 
@@ -27,16 +27,14 @@ Included in this repository:
 * The Conda environment used for the project, built for M-architecture OS. 
 * The presentation file given as a part of this project. 
 
-Manim animations are hosted in the releases, as they are big, hosted in the `videos.zip` file in the release description. Only one example animation is shown below, or is found in the `src` directory as `example.mp4`. 
+> [!NOTE]
+> Manim animations are hosted in the releases, as they are big, hosted in the `videos.zip` file in each release description. One example is shown below, but in order to get it to display, it has been converted to a gif, which greatly reduces its overall quality. It is recommended to download the zip for higher-fidelity animations.
 
-<video controls width="640" height="360">
-    <source src="https://github.com/user-attachments/assets/f4dd441c-62e6-4986-be80-4e22cbcefb04" type="video/mp4">
-    Your browser does not support the video tag.
-</video>
-
+Here is the (low quality) gif: <br />
+![Example Animation as Low-Quality Gif](src/example.gif)
 
 > [!WARNING]
-> Some video viewers ruin the video when playing high-FPS videos. This includes MacOS's QuicktimePlayer. The 150fps movie shown here may randomly slow, causing it to be longer than the expected 30s duration. If this occurs, it is recommended to use the free-to-use [VLC player](https://www.videolan.org/vlc/), as this has been confirmed to work with the high-FPS outputs.
+> Some video viewers ruin the video when playing high-FPS videos. This includes MacOS's QuicktimePlayer. The 150fps movie (like the one shown here, once downloaded) may randomly slow down, causing it to be longer than the expected 30s duration. If this occurs, it is recommended to use the free-to-use [VLC player](https://www.videolan.org/vlc/), as this has been confirmed to work with the high-FPS outputs.
 
 ___
 
