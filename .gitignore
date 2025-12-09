@@ -18,3 +18,7 @@ ignore/
 
 # Tex
 */tex/
+
+# Videos for Release
+*/vids/
+*/videos.zip
