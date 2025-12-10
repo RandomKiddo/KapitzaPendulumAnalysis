@@ -28,7 +28,7 @@ Included in this repository:
 * The presentation file given as a part of this project. 
 
 > [!NOTE]
-> Manim animations are hosted in the releases, as they are big, hosted in the `videos.zip` file in each release description. One example is shown below, but in order to get it to display, it has been converted to a gif, which greatly reduces its overall quality. It is recommended to download the zip for higher-fidelity animations.
+> Manim animations are hosted in the releases, as they are big, hosted in the `videos.zip` file in each release description. One example is shown below, but in order to get it to display, it has been converted to a gif, which greatly reduces its overall quality. It is recommended to download the zip for higher-fidelity animations. The zip file is [here](https://github.com/RandomKiddo/KapitzaPendulumAnalysis/releases/tag/beta1.1).
 
 Here is the (low quality) gif: <br />
 ![Example Animation as Low-Quality Gif](src/example.gif)
