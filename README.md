@@ -38,4 +38,4 @@ Here is the (low quality) gif: <br />
 
 ___
 
-<sub>This page was last edited on 12.09.2025.</sub>
+<sub>This page was last edited on 12.10.2025.</sub>
