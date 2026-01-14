@@ -6,7 +6,7 @@ The following project involves the numerical analysis and manim animation of a K
 
 
 >[!Note]
-> Current version is $\beta$ 1.1.2$, but the latest release is $\beta 1.1$. The only differences between $\beta 1.1$ and $\beta 1.1.2$ are only derivation/PDF or other changes, and no changes were made to the videos or the code/notebook itself. The main body of the work is *completed*, but some minor adjustments and additions may be made.
+> Current version is $\beta$ 1.1.3, but the latest release is $\beta$ 1.1. The only differences between $\beta$ 1.1 and $\beta$ 1.1.3 are only derivation/PDF/Markdown or other changes, and no changes were made to the videos or the code/notebook itself. The main body of the work is *completed*, but some minor adjustments and additions may be made.
 
 ___
 
