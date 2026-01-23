@@ -6,7 +6,7 @@ The following project involves the numerical analysis and manim animation of a K
 
 
 >[!Note]
-> Current version is $\beta$ 1.1.3, but the latest release is $\beta$ 1.1. The only differences between $\beta$ 1.1 and $\beta$ 1.1.3 are only derivation/PDF/Markdown or other changes, and no changes were made to the videos or the code/notebook itself. The main body of the work is *completed*, but some minor adjustments and additions may be made.
+> Current version is $\beta$ 1.1.4, but the latest release is $\beta$ 1.1. The only differences between $\beta$ 1.1 and $\beta$ 1.1.4 are only derivation/PDF/Markdown, the Markdown text in the Jupyter notebook, or other changes. No changes were made to the videos or the code/output itself. The main body of the work is *completed*, but some minor adjustments and additions may be made.
 
 ___
 
@@ -28,14 +28,17 @@ Included in this repository:
 * The presentation file given as a part of this project. 
 
 > [!NOTE]
-> Manim animations are hosted in the releases, as they are big, hosted in the `videos.zip` file in each release description. One example is shown below, but in order to get it to display, it has been converted to a gif, which greatly reduces its overall quality. It is recommended to download the zip for higher-fidelity animations. The zip file is [here](https://github.com/RandomKiddo/KapitzaPendulumAnalysis/releases/tag/beta1.1).
+> Manim animations are hosted in the releases, as they are big, hosted in the `videos.zip` file in each release description. One example is shown below, but in order to get it to display, it has been converted to a gif, which (sometimes) greatly reduces its overall quality. It is recommended to download the zip for higher-fidelity animations. The zip file is [here](https://github.com/RandomKiddo/KapitzaPendulumAnalysis/releases/tag/beta1.1).
 
-Here is the (low quality) gif: <br />
+Here is an example system as a gif: <br />
 ![Example Animation as Low-Quality Gif](src/example.gif)
+
+And here is an example of the chaos animation as a gif: <br />
+![Example Chaos Animation as Low-Quality Gif](src/example_chaos.gif)
 
 > [!WARNING]
 > Some video viewers ruin the video when playing high-FPS videos. This includes MacOS's QuicktimePlayer. The 150fps movie (like the one shown here, once downloaded) may randomly slow down, causing it to be longer than the expected 30s duration. If this occurs, it is recommended to use the free-to-use [VLC player](https://www.videolan.org/vlc/), as this has been confirmed to work with the high-FPS outputs.
 
 ___
 
-<sub>This page was last edited on 01.13.2026</sub>
+<sub>This page was last edited on 01.22.2026</sub>
