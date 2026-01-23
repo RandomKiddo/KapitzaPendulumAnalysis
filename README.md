@@ -3,7 +3,7 @@
 The following project involves the numerical analysis and manim animation of a Kapitza pendulum system as a part of a theoretical mechanics course final project. Specifically, we use Manim animations and Hopf bifurcation analysis to inspect the stability of the inverted position of the pendulum in the high-driving, low-amplitude regime. This is done with a mix of analytical and numerical methods. 
 
 ![GitHub License](https://img.shields.io/github/license/RandomKiddo/KapitzaPendulumAnalysis)
-
+![GitHub repo size](https://img.shields.io/github/repo-size/RandomKiddo/KapitzaPendulumAnalysis)
 
 >[!Note]
 > Current version is $\beta$ 1.1.4, but the latest release is $\beta$ 1.1. The only differences between $\beta$ 1.1 and $\beta$ 1.1.4 are only derivation/PDF/Markdown, the Markdown text in the Jupyter notebook, or other changes. No changes were made to the videos or the code/output itself. The main body of the work is *completed*, but some minor adjustments and additions may be made.
