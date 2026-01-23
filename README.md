@@ -30,10 +30,10 @@ Included in this repository:
 > [!NOTE]
 > Manim animations are hosted in the releases, as they are big, hosted in the `videos.zip` file in each release description. One example is shown below, but in order to get it to display, it has been converted to a gif, which (sometimes) greatly reduces its overall quality. It is recommended to download the zip for higher-fidelity animations. The zip file is [here](https://github.com/RandomKiddo/KapitzaPendulumAnalysis/releases/tag/beta1.1).
 
-Here is an example system as a gif: <br />
+Here is an example system as a gif: <br /> <br />
 ![Example Animation as Low-Quality Gif](src/example.gif)
 
-And here is an example of the chaos animation as a gif: <br />
+And here is an example of the chaos animation as a gif: <br /> <br />
 ![Example Chaos Animation as Low-Quality Gif](src/example_chaos.gif)
 
 > [!WARNING]
